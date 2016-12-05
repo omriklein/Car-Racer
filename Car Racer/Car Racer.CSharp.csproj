@@ -153,6 +153,7 @@
     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Assets\Scripts\Motor.cs" />
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\NetworkPlayer.cs" />
     <Compile Include="Assets\Scripts\Wheel.cs" />
   </ItemGroup>
   <ItemGroup>
