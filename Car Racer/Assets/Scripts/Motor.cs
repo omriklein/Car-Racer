@@ -11,8 +11,8 @@ public class Motor : MonoBehaviour
     back right
     */
     public Wheel[] wheels;
-    public float motorPower = 500f;
-    public float turnPower = 500f;
+    public float motorPower = 1000f;
+    public float turnPower = 25f;
     public Transform centerOfMass;
 
     /*for the tricks in game
@@ -77,7 +77,7 @@ public class Motor : MonoBehaviour
             }
             else
             {
-                this.GetComponent<Rigidbody>().drag = 1;
+                this.GetComponent<Rigidbody>().drag = 5;
             }
 
             //Front Wheels Steer

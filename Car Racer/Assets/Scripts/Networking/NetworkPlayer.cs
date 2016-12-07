@@ -20,8 +20,8 @@ public class NetworkPlayer : Photon.MonoBehaviour
             gameObject.name = "Me";
 
             myCamera.SetActive(true);
-            //this.GetComponent<Motor>().enabled = true;
             this.GetComponent<Rigidbody>().useGravity = true;
+            this.GetComponent<Motor>().enabled = true; // IF ABLE TO PLAYE LESS THEN MAX PLAYERS
 
             WheelCollider[] wheelColliders = GetComponentsInChildren<WheelCollider>();
             foreach (WheelCollider wc in wheelColliders)
@@ -36,6 +36,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
         }
     }
 
+    /* ONLY IF YOU CANT PLAY LESS THEN MAX PLAYERS
     void Update()
     {
         if (disable && PhotonNetwork.room.playerCount == NetworkManager.maxPlayers)
@@ -44,6 +45,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
             disable = false;
         }
     }
+    */
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
