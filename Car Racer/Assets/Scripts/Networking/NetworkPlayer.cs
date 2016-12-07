@@ -6,23 +6,42 @@ public class NetworkPlayer : Photon.MonoBehaviour
 
     public GameObject myCamera;
 
+    private bool disable = true;
     private bool isAlive = true;
     private Vector3 position;
     private Quaternion rotation;
-    private float lerpSmoothing = 5f;
+    private float lerpSmoothing = 10f;
 
     // Use this for initialization
     void Start()
     {
         if (photonView.isMine)
         {
+            gameObject.name = "Me";
+
             myCamera.SetActive(true);
-            this.GetComponent<Motor>().enabled = true;
+            //this.GetComponent<Motor>().enabled = true;
             this.GetComponent<Rigidbody>().useGravity = true;
+
+            WheelCollider[] wheelColliders = GetComponentsInChildren<WheelCollider>();
+            foreach (WheelCollider wc in wheelColliders)
+                wc.enabled = true;
+
         }
         else
         {
+            gameObject.name = "Network Player";
+
             StartCoroutine("Alive");
+        }
+    }
+
+    void Update()
+    {
+        if (disable && PhotonNetwork.room.playerCount == NetworkManager.maxPlayers)
+        {
+            this.GetComponent<Motor>().enabled = true;
+            disable = false;
         }
     }
 
@@ -45,7 +64,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
         while (isAlive)
         {
             transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * lerpSmoothing);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime *  lerpSmoothing);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * lerpSmoothing);
 
             yield return null;
         }

@@ -49,6 +49,16 @@ public class Motor : MonoBehaviour
    }
     */
 
+    void Update()
+    {
+        /* Restart before I find a better solution */
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            transform.position = new Vector3(100, 8, 20);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -57,9 +67,18 @@ public class Motor : MonoBehaviour
             float torque = Input.GetAxis("Vertical") * motorPower;
             float turnSpeed = Input.GetAxis("Horizontal") * turnPower;
 
-            //Back Wheels Drive
-            wheels[wheels.Length - 1].move(torque);
-            wheels[wheels.Length - 2].move(torque);
+            if (torque != 0)
+            {
+                this.GetComponent<Rigidbody>().drag = 0;
+
+                //Back Wheels Drive
+                wheels[wheels.Length - 1].move(torque);
+                wheels[wheels.Length - 2].move(torque);
+            }
+            else
+            {
+                this.GetComponent<Rigidbody>().drag = 1;
+            }
 
             //Front Wheels Steer
             wheels[0].turn(turnSpeed);

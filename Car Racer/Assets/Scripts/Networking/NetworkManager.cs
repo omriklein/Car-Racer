@@ -4,11 +4,13 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour
 {
     [SerializeField]
-    private string VERSION = "cc";
+    private string VERSION = "V0.1";
+
+    public static int maxPlayers = 4;
 
     public string roomName = "room1";
     public string playerPrefubName = "Car";
-    public Transform spawnPoint;
+    public Transform[] spawnPoints; // few spawn points. one for each car (player)
 
     // Use this for initialization
     void Start()
@@ -31,6 +33,7 @@ public class NetworkManager : MonoBehaviour
 
     void OnJoinedRoom()
     {
-        PhotonNetwork.Instantiate(playerPrefubName, spawnPoint.position, spawnPoint.rotation, 0);
+        int numOfPlayers = PhotonNetwork.room.playerCount;
+        PhotonNetwork.Instantiate(playerPrefubName, spawnPoints[numOfPlayers - 1].position, spawnPoints[numOfPlayers - 1].rotation, 0);
     }
 }
