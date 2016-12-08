@@ -3,13 +3,34 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+public enum GamePlatform
+{
+    Android,
+    Windows,
+    Unknown,
+}
+
+
 public class MenuScript : MonoBehaviour
 {
+    public static GamePlatform GP;
+
     public Image loadingImage;
+
     // Use this for initialization
     void Start()
     {
         loadingImage.gameObject.SetActive(false);
+
+        switch (Application.platform)
+        {
+            case RuntimePlatform.Android:
+                GP = GamePlatform.Android; break;
+            case RuntimePlatform.WindowsPlayer:
+                GP = GamePlatform.Windows; break;
+            default: GP = GamePlatform.Unknown; break;
+
+        }
     }
 
     // Update is called once per frame

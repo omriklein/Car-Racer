@@ -15,6 +15,9 @@ public class Motor : MonoBehaviour
     public float turnPower = 25f;
     public Transform centerOfMass;
 
+    private float torque;
+    private float turnSpeed;
+
     /*for the tricks in game
    public static bool isGruonded = true;
    public float jumpForce = 100000f;
@@ -23,15 +26,35 @@ public class Motor : MonoBehaviour
 
     private Rigidbody rbody;
 
+    /* For Android
+    inisiate vars for android input
+    */
+    private Gyroscope gyro;
+    private const float torqueMaxValue = 5000;
+    private float gyroStartY;
+    private float turnSensitivity = 5f;
+
     void Awake()
     {
         rbody = this.GetComponent<Rigidbody>();
+
+        if(MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Android)
+        {
+            gyro = Input.gyro;
+            if (!gyro.enabled)
+                gyro.enabled = true;
+        }
     }
 
     // Use this for initialization
     void Start()
     {
         rbody.centerOfMass = centerOfMass.localPosition;
+
+        if(gyro != null && gyro.enabled)
+        {
+            gyroStartY = gyro.attitude.y;
+        }
     }
 
     /*for the tricks in game
@@ -64,9 +87,24 @@ public class Motor : MonoBehaviour
     {
         if (wheels.Length >= 2)
         {
-            float torque = Input.GetAxis("Vertical") * motorPower;
-            float turnSpeed = Input.GetAxis("Horizontal") * turnPower;
-
+            if (MenuScript.GP == GamePlatform.Android)
+            {
+                switch (Input.touchCount)
+                {
+                    case 1:
+                        torque = torqueMaxValue * motorPower; break;
+                    case 2:
+                        torque = -1 * torqueMaxValue * motorPower; break;
+                    default:
+                        torque = 0; break;
+                }
+                turnSpeed = (gyroStartY - gyro.attitude.y) * turnSensitivity * turnPower;
+            }
+            else
+            {
+                torque = Input.GetAxis("Vertical") * motorPower;
+                turnSpeed = Input.GetAxis("Horizontal") * turnPower;
+            }
             if (torque != 0)
             {
                 this.GetComponent<Rigidbody>().drag = 0;
