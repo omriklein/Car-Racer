@@ -31,7 +31,7 @@ public class Motor : MonoBehaviour
     */
     private Gyroscope gyro;
     private const float torqueMaxValue = 5000;
-    private float gyroStartX;
+    private float gyroStartZ;
     private float turnSensitivity = 5f;
 
     void Awake()
@@ -53,7 +53,7 @@ public class Motor : MonoBehaviour
 
         if(gyro != null && gyro.enabled)
         {
-            gyroStartX = gyro.attitude.x;
+            gyroStartZ = gyro.attitude.z;
         }
     }
 
@@ -98,7 +98,7 @@ public class Motor : MonoBehaviour
                     default:
                         torque = 0; break;
                 }
-                turnSpeed = (gyroStartX - gyro.attitude.x) * turnSensitivity * turnPower;
+                turnSpeed = (gyroStartZ - gyro.attitude.z) * turnSensitivity * turnPower;
             }
             else
             {
