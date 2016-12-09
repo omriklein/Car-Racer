@@ -31,8 +31,8 @@ public class Motor : MonoBehaviour
     */
     private Gyroscope gyro;
     private const float torqueMaxValue = 5000;
-    private float gyroStartZ;
-    private float turnSensitivity = 5f;
+    private float gyroStartZValue;
+    private float turnSensitivity = 3f;
 
     void Awake()
     {
@@ -53,7 +53,7 @@ public class Motor : MonoBehaviour
 
         if(gyro != null && gyro.enabled)
         {
-            gyroStartZ = gyro.attitude.z;
+            gyroStartZValue = gyro.attitude.z;
         }
     }
 
@@ -98,7 +98,7 @@ public class Motor : MonoBehaviour
                     default:
                         torque = 0; break;
                 }
-                turnSpeed = (gyroStartZ - gyro.attitude.z) * turnSensitivity * turnPower;
+                turnSpeed = (gyro.attitude.z - gyroStartZValue) * turnSensitivity * turnPower;
             }
             else
             {
@@ -115,7 +115,7 @@ public class Motor : MonoBehaviour
             }
             else
             {
-                this.GetComponent<Rigidbody>().drag = 5;
+                this.GetComponent<Rigidbody>().drag = 7;
             }
 
             //Front Wheels Steer
