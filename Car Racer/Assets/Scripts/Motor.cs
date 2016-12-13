@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Motor : MonoBehaviour
@@ -30,15 +31,20 @@ public class Motor : MonoBehaviour
     inisiate vars for android input
     */
     private Gyroscope gyro;
+    private float gyroStartZValue;
     private const float torqueMaxValue = 5000;
     private float phoneAngleZ = 0;
     private float turnSensitivity = 3f;
+
+    //DEBUGING
+    public Text gyroText;
+    public Text accText;
 
     void Awake()
     {
         rbody = this.GetComponent<Rigidbody>();
 
-        if(MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Android)
+        if (MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Unknown)
         {
             gyro = Input.gyro;
             if (!gyro.enabled)
@@ -50,6 +56,12 @@ public class Motor : MonoBehaviour
     void Start()
     {
         rbody.centerOfMass = centerOfMass.localPosition;
+
+        if (gyro != null && gyro.enabled)
+        {
+            gyro.attitude.Set(0f, 0f, 0f, 0f);
+            gyroStartZValue = gyro.attitude.z;
+        }
     }
 
     /*for the tricks in game
@@ -94,7 +106,9 @@ public class Motor : MonoBehaviour
                         torque = 0; break;
                 }
 
-                phoneAngleZ += Input.acceleration.z; 
+                phoneAngleZ += Input.acceleration.z;
+                accText.text = Input.acceleration.z + ", " + phoneAngleZ;//###########
+                gyroText.text = gyro.attitude.z + ", " + gyroStartZValue + ", " + (gyro.attitude.z - gyroStartZValue);
                 turnSpeed = (phoneAngleZ) * turnSensitivity * turnPower;
             }
             else

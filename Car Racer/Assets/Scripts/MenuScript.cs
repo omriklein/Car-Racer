@@ -17,6 +17,8 @@ public class MenuScript : MonoBehaviour
 
     public Image loadingImage;
 
+    public Text wellcomeText;
+
     // Use this for initialization
     void Start()
     {
@@ -25,10 +27,13 @@ public class MenuScript : MonoBehaviour
         switch (Application.platform)
         {
             case RuntimePlatform.Android:
-                GP = GamePlatform.Android; break;
+                GP = GamePlatform.Android;
+                wellcomeText.text += " Android";  break;
             case RuntimePlatform.WindowsPlayer:
-                GP = GamePlatform.Windows; break;
-            default: GP = GamePlatform.Unknown; break;
+                GP = GamePlatform.Windows;
+                wellcomeText.text += " Windows"; break;
+            default: GP = GamePlatform.Unknown;
+                wellcomeText.text += " Unkown"; break;
 
         }
     }
