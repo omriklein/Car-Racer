@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Arenas>
+  <arena LevelNumber = "1">
+    <arenaBasePrefubName>Arena2</arenaBasePrefubName>
+  </arena>
+
+  <arena LevelNumber ="2">
+    <arenaBasePrefubName>Arena1</arenaBasePrefubName>
+  </arena>
+
+</Arenas>

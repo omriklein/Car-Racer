@@ -4,7 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour
 {
     [SerializeField]
-    private string VERSION = "V0.1";
+    private string VERSION = "V0.2";
 
     public static int maxPlayers = 4;
 
@@ -26,6 +26,7 @@ public class NetworkManager : MonoBehaviour
 
     void OnJoinedLobby()
     {
+        print("lobby");
         RoomOptions roomOptions = new RoomOptions() { IsVisible = true, MaxPlayers = 4 };
 
         PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
@@ -35,5 +36,6 @@ public class NetworkManager : MonoBehaviour
     {
         int numOfPlayers = PhotonNetwork.room.playerCount;
         PhotonNetwork.Instantiate(playerPrefubName, spawnPoints[numOfPlayers - 1].position, spawnPoints[numOfPlayers - 1].rotation, 0);
+        print("room");
     }
 }

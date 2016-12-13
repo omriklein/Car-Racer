@@ -30,10 +30,9 @@ public class Motor : MonoBehaviour
     /* For Android
     inisiate vars for android input
     */
-    private Gyroscope gyro;
-    private float gyroStartZValue;
+
+    private float StartZValue;
     private const float torqueMaxValue = 5000;
-    private float phoneAngleZ = 0;
     private float turnSensitivity = 3f;
 
     //DEBUGING
@@ -46,9 +45,7 @@ public class Motor : MonoBehaviour
 
         if (MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Unknown)
         {
-            gyro = Input.gyro;
-            if (!gyro.enabled)
-                gyro.enabled = true;
+            StartZValue = Input.acceleration.x;
         }
     }
 
@@ -57,11 +54,6 @@ public class Motor : MonoBehaviour
     {
         rbody.centerOfMass = centerOfMass.localPosition;
 
-        if (gyro != null && gyro.enabled)
-        {
-            gyro.attitude.Set(0f, 0f, 0f, 0f);
-            gyroStartZValue = gyro.attitude.z;
-        }
     }
 
     /*for the tricks in game
@@ -106,10 +98,11 @@ public class Motor : MonoBehaviour
                         torque = 0; break;
                 }
 
-                phoneAngleZ += Input.acceleration.z;
-                accText.text = Input.acceleration.z + ", " + phoneAngleZ;//###########
-                gyroText.text = gyro.attitude.z + ", " + gyroStartZValue + ", " + (gyro.attitude.z - gyroStartZValue);
-                turnSpeed = (phoneAngleZ) * turnSensitivity * turnPower;
+                accText.text = turnSpeed + ", ";
+                gyroText.text = turnSpeed * turnPower * turnSensitivity + ", ";
+
+                turnSpeed = Mathf.Clamp(turnSpeed - ((StartZValue) - (Input.acceleration.x)), -0.5f, 0.5f);
+                StartZValue = Input.acceleration.x;
             }
             else
             {
@@ -130,8 +123,8 @@ public class Motor : MonoBehaviour
             }
 
             //Front Wheels Steer
-            wheels[0].turn(turnSpeed);
-            wheels[1].turn(turnSpeed);
+            wheels[0].turn(turnSpeed * turnPower * turnSensitivity);
+            wheels[1].turn(turnSpeed * turnPower * turnSensitivity);
 
         }
     }
