@@ -47,6 +47,10 @@ public class Motor : MonoBehaviour
         {
             StartZValue = Input.acceleration.x;
         }
+        else
+        {
+            turnSensitivity = 1;
+        }
     }
 
     // Use this for initialization
@@ -107,7 +111,7 @@ public class Motor : MonoBehaviour
             else
             {
                 torque = Input.GetAxis("Vertical") * motorPower;
-                turnSpeed = Input.GetAxis("Horizontal") * turnPower;
+                turnSpeed = Input.GetAxis("Horizontal");
             }
             if (torque != 0)
             {
