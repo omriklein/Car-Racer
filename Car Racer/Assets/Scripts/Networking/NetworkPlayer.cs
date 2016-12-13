@@ -66,7 +66,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
         while (isAlive)
         {
             transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * lerpSmoothing);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * lerpSmoothing);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * lerpSmoothing);
 
             yield return null;
         }

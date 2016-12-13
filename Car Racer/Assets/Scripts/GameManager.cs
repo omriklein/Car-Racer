@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
             }
         }*/
 
-        print(MenuScript.Levels[MenuScript.levelSelected]);
-
         Instantiate(Resources.Load("Arenas/"+MenuScript.Levels[MenuScript.levelSelected]) as GameObject,
             Vector3.zero,
             new Quaternion(0, 0, 0, 0));

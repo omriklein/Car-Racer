@@ -33,11 +33,7 @@ public class Motor : MonoBehaviour
 
     private float StartZValue;
     private const float torqueMaxValue = 5000;
-    private float turnSensitivity = 3f;
-
-    //DEBUGING
-    public Text gyroText;
-    public Text accText;
+    private float turnSensitivity = 2f;
 
     void Awake()
     {
@@ -90,7 +86,7 @@ public class Motor : MonoBehaviour
     {
         if (wheels.Length >= 2)
         {
-            if (MenuScript.GP == GamePlatform.Android)
+            if (MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Unknown)
             {
                 switch (Input.touchCount)
                 {
@@ -101,9 +97,6 @@ public class Motor : MonoBehaviour
                     default:
                         torque = 0; break;
                 }
-
-                accText.text = turnSpeed + ", ";
-                gyroText.text = turnSpeed * turnPower * turnSensitivity + ", ";
 
                 turnSpeed = Mathf.Clamp(turnSpeed - ((StartZValue) - (Input.acceleration.x)), -0.5f, 0.5f);
                 StartZValue = Input.acceleration.x;
