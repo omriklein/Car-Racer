@@ -4,7 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour
 {
     [SerializeField]
-    private string VERSION = "V0.2";
+    private string VERSION = "Level1";
 
     public static int maxPlayers = 4;
 
@@ -15,6 +15,7 @@ public class NetworkManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        VERSION = "Level" + MenuScript.levelSelected;
         PhotonNetwork.ConnectUsingSettings(VERSION);
     }
 
