@@ -86,8 +86,15 @@ public class Motor : MonoBehaviour
     {
         if (wheels.Length >= 2)
         {
-            if (MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Unknown)
+            if (MenuScript.GP == GamePlatform.Android || MenuScript.GP == GamePlatform.Unknown) // if playing on an android device
             {
+                //if finger pressed or remove stop the car
+                foreach (Touch t in Input.touches)
+                {
+                    if (t.phase == TouchPhase.Began || t.phase == TouchPhase.Ended)
+                        this.GetComponent<Rigidbody>().drag = float.MaxValue;
+                }
+
                 switch (Input.touchCount)
                 {
                     case 1:
@@ -114,10 +121,10 @@ public class Motor : MonoBehaviour
                 wheels[wheels.Length - 1].move(torque);
                 wheels[wheels.Length - 2].move(torque);
             }
-            else
-            {
-                this.GetComponent<Rigidbody>().drag = 7;
-            }
+            //else
+            //{
+            //    this.GetComponent<Rigidbody>().drag = 7;
+            //}
 
             //Front Wheels Steer
             wheels[0].turn(turnSpeed * turnPower * turnSensitivity);
@@ -125,5 +132,7 @@ public class Motor : MonoBehaviour
 
         }
     }
+
+
 
 }
