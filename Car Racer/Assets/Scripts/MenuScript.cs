@@ -34,6 +34,9 @@ public class MenuScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        /////////////////////////////////////////////////////////////
+        print(Screen.currentResolution.height+"."+Screen.currentResolution.width);
+
         //the game is not loading
         loadingImage.gameObject.SetActive(false);
 
@@ -93,7 +96,7 @@ public class MenuScript : MonoBehaviour
                 {
                     button.transform.position += new Vector3((lp.x - fp.x), 0f, 0f);
 
-                    scale = Mathf.Clamp((Mathf.Pow(button.transform.position.x - 400, 2) / -40000 + buttonMaxScale), 0.5f, 2);
+                    scale = Mathf.Clamp((Mathf.Pow(button.transform.position.x - (Screen.currentResolution.height/2), 2) / -(Screen.currentResolution.width*25) + buttonMaxScale), 0.5f, 2);
                     button.transform.localScale = new Vector3(scale, scale, 1f);
                 }
                 fp = lp;

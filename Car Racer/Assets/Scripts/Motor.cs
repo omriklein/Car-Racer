@@ -92,14 +92,22 @@ public class Motor : MonoBehaviour
                 foreach (Touch t in Input.touches)
                 {
                     if (t.phase == TouchPhase.Began || t.phase == TouchPhase.Ended)
-                        this.GetComponent<Rigidbody>().drag = float.MaxValue;
+                    {
+                        //this.GetComponent<Rigidbody>().drag = float.MaxValue;
+                        //rbody.velocity *= 0.5f;
+                        //print("Zeroised");
+                    }
                 }
 
                 switch (Input.touchCount)
                 {
                     case 1:
+                        if (rbody.velocity.z < 0)
+                            rbody.velocity = new Vector3(rbody.velocity.x, rbody.velocity.y, -1*rbody.velocity.z);
                         torque = torqueMaxValue * motorPower; break;
                     case 2:
+                        if (rbody.velocity.z > 0)
+                            rbody.velocity = new Vector3(rbody.velocity.x, rbody.velocity.y, -1 * rbody.velocity.z);
                         torque = -1 * torqueMaxValue * motorPower; break;
                     default:
                         torque = 0; break;
@@ -113,18 +121,19 @@ public class Motor : MonoBehaviour
                 torque = Input.GetAxis("Vertical") * motorPower;
                 turnSpeed = Input.GetAxis("Horizontal");
             }
+
             if (torque != 0)
             {
-                this.GetComponent<Rigidbody>().drag = 0;
+                rbody.drag = 0;
 
                 //Back Wheels Drive
                 wheels[wheels.Length - 1].move(torque);
                 wheels[wheels.Length - 2].move(torque);
             }
-            //else
-            //{
-            //    this.GetComponent<Rigidbody>().drag = 7;
-            //}
+            else
+            {
+                this.GetComponent<Rigidbody>().drag = 1;
+            }
 
             //Front Wheels Steer
             wheels[0].turn(turnSpeed * turnPower * turnSensitivity);
